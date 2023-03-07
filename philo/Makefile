@@ -6,7 +6,7 @@
 #    By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/30 16:17:10 by ltuffery          #+#    #+#              #
-#    Updated: 2023/02/01 18:40:14 by ltuffery         ###   ########.fr        #
+#    Updated: 2023/02/06 16:47:25 by ltuffery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,9 @@ CFLAGS	=	-Wall -Wextra -Werror -g
 
 NAME	=	philo
 
-SRCS	=	main.c
+SRCS	=	main.c \
+			ft_atoi.c \
+			utils.c
 
 OBJS	=	$(SRCS:.c=.o)
 
@@ -26,7 +28,7 @@ OBJS	=	$(SRCS:.c=.o)
 all:	$(NAME)
 
 $(NAME):	$(OBJS)
-	$(CC) $^ ../libft/libft.a -lpthread -o $@
+	$(CC) $^ -lpthread -o $@
 
 clean:
 	rm -rf $(OBJS)
