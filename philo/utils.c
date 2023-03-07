@@ -6,7 +6,7 @@
 /*   By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:39:00 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/02/06 17:21:56 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/03/07 08:24:48 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,4 @@ int	timestamp(void)
 
 	gettimeofday(&tv, NULL);
 	return (tv.tv_usec * 1000);
-}
-
-void	wait(int *boolean)
-{
-	if (*boolean == 1)
-		wait(boolean);
 }
