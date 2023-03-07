@@ -6,7 +6,7 @@
 /*   By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:36:07 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/02/08 16:39:55 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/03/07 09:59:52 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	// printf("%i | %s\n", philo->id, "Create");
 	usleep(6000);
 	eat_philo(philo);
 	return (arg);
@@ -31,14 +30,14 @@ void	*routine(void *arg)
 
 void	eat_philo(t_philo *philo)
 {
-	if ((philo->id % 2) == 1)
-		usleep(philo->times.u_eat * 1000 * 2);
-	pthread_mutex_lock(&philo->left_fork);
-	pthread_mutex_lock(philo->right_fork);
-	// printf("%i | Eat\n", philo->id);
+	usleep(600 * (philo->id - 1));
+	display(philo, TAKEN);
+	pthread_mutex_lock(&philo->fork.left);
+	pthread_mutex_lock(philo->fork.right);
+	display(philo, EAT);
 	usleep(philo->times.u_eat * 1000);
-	pthread_mutex_unlock(&philo->left_fork);
-	pthread_mutex_unlock(philo->right_fork);
+	pthread_mutex_unlock(&philo->fork.left);
+	pthread_mutex_unlock(philo->fork.right);
 }
 
 void	meeting_philo(t_data *data)
@@ -61,23 +60,14 @@ void	create_philo(t_data *data, char **av)
 	data->philos = malloc(sizeof(t_philo) * data->populations);
 	if (data->philos == NULL)
 		return ;
-	data->forks = malloc(sizeof(int) * data->populations);
-	if (data->forks == NULL)
-	{
-		free(data->philos);
-		return ;
-	}
 	while (i < data->populations)
 	{
 		if (i > 0)
 			data->philos[i - 1].fork.right = &data->philos[i].fork.left;
 		pthread_mutex_init(&data->philos[i].fork.left, NULL);
-		data->forks[i] = 0;
-		data->philos[i].fork.left_status = &data->forks[i];
 		data->philos[i].id = i + 1;
-		data->philos[i].times.u_die = ft_atoi(av[2]);
-		data->philos[i].times.u_eat = ft_atoi(av[3]);
-		data->philos[i].times.u_sleep = ft_atoi(av[4]);
+		data->philos[i].typing = &data->typing;
+		settimes(&data->philos[i], av);
 		pthread_create(&data->philos[i].body, NULL, \
 				routine, &data->philos[i]);
 		i++;
@@ -92,6 +82,7 @@ int	main(int ac, char **av)
 	if (ac < 5 || ac > 6)
 		return (1);
 	data.populations = ft_atoi(av[1]);
+	pthread_mutex_init(&data.typing, NULL);
 	create_philo(&data, av);
 	meeting_philo(&data);
 	free(data.philos);
