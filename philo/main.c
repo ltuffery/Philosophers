@@ -6,7 +6,7 @@
 /*   By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:36:07 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/03/07 09:59:52 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/03/08 12:26:25 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-void	eat_philo(t_philo *philo);
-
 void	*routine(void *arg)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	usleep(6000);
+	usleep(600);
 	eat_philo(philo);
 	return (arg);
-}
-
-void	eat_philo(t_philo *philo)
-{
-	usleep(600 * (philo->id - 1));
-	display(philo, TAKEN);
-	pthread_mutex_lock(&philo->fork.left);
-	pthread_mutex_lock(philo->fork.right);
-	display(philo, EAT);
-	usleep(philo->times.u_eat * 1000);
-	pthread_mutex_unlock(&philo->fork.left);
-	pthread_mutex_unlock(philo->fork.right);
 }
 
 void	meeting_philo(t_data *data)
@@ -52,27 +38,49 @@ void	meeting_philo(t_data *data)
 	}
 }
 
-void	create_philo(t_data *data, char **av)
+void	create_philo_thread(t_data *data)
 {
 	int	i;
 
 	i = 0;
+	while (i < data->populations)
+	{
+		pthread_create(&data->philos[i].body, NULL, \
+				routine, &data->philos[i]);
+		i++;
+	}
+}
+
+void	create_philo(t_data *data, char **av)
+{
+	int			i;
+	long long	start_simulation;
+
+	i = 0;
+	start_simulation = timestamp();
 	data->philos = malloc(sizeof(t_philo) * data->populations);
 	if (data->philos == NULL)
 		return ;
 	while (i < data->populations)
 	{
+		pthread_mutex_init(&data->philos[i].fork_left, NULL);
 		if (i > 0)
-			data->philos[i - 1].fork.right = &data->philos[i].fork.left;
-		pthread_mutex_init(&data->philos[i].fork.left, NULL);
+			data->philos[i - 1].fork_right = &data->philos[i].fork_left;
 		data->philos[i].id = i + 1;
 		data->philos[i].typing = &data->typing;
+		data->philos[i].start_simulation = start_simulation;
+		data->philos[i].stop_simulation = &data->stop_simulation;
+		data->philos[i].stop_simulation_guard = &data->stop_simulation_guard;
+		data->philos[i].number_of_meals = 0;
+		data->philos[i].number_max_of_meals = -1;
 		settimes(&data->philos[i], av);
-		pthread_create(&data->philos[i].body, NULL, \
-				routine, &data->philos[i]);
+		if (av[5] != NULL)
+			data->philos[i].number_max_of_meals = ft_atoi(av[5]);
+		if (i + 1 == data->populations)
+			data->philos[i].fork_right = &data->philos[0].fork_left;
 		i++;
 	}
-	data->philos[i - 1].fork.right = &data->philos[0].fork.left;
+	create_philo_thread(data);
 }
 
 int	main(int ac, char **av)
@@ -82,7 +90,9 @@ int	main(int ac, char **av)
 	if (ac < 5 || ac > 6)
 		return (1);
 	data.populations = ft_atoi(av[1]);
+	data.stop_simulation = 0;
 	pthread_mutex_init(&data.typing, NULL);
+	pthread_mutex_init(&data.stop_simulation_guard, NULL);
 	create_philo(&data, av);
 	meeting_philo(&data);
 	free(data.philos);

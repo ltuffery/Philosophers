@@ -6,7 +6,7 @@
 #    By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/30 16:17:10 by ltuffery          #+#    #+#              #
-#    Updated: 2023/02/06 16:47:25 by ltuffery         ###   ########.fr        #
+#    Updated: 2023/03/08 09:29:38 by ltuffery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,9 @@ NAME	=	philo
 
 SRCS	=	main.c \
 			ft_atoi.c \
-			utils.c
+			utils.c \
+			clean.c \
+			routine.c
 
 OBJS	=	$(SRCS:.c=.o)
 
