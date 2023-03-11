@@ -6,7 +6,7 @@
 /*   By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:36:07 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/03/11 11:11:04 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/03/11 11:17:27 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,13 @@ void	create_philo(t_data *data, char **av)
 	data->philos = malloc(sizeof(t_philo) * data->populations);
 	if (data->philos == NULL)
 		return ;
+	philo_born(data, start_simulation, av);
 	while (i < data->populations)
 	{
 		pthread_create(&data->philos[i].body, NULL, \
 				routine, &data->philos[i]);
 		i++;
 	}
-	philo_born(data, start_simulation, av);
 }
 
 int	main(int ac, char **av)

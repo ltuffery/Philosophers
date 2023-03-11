@@ -6,7 +6,7 @@
 /*   By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:07:48 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/03/11 11:12:51 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/03/11 11:19:55 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void		data_clean(t_data *data);
 
 /*	ROUTINE	*/
 void		eat_philo(t_philo *philo);
-int			check_kill(t_philo *philo);
 void		die_philo(t_philo *philo);
 
 #endif

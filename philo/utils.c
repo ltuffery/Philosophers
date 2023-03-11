@@ -6,7 +6,7 @@
 /*   By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:39:00 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/03/11 11:12:34 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/03/11 11:18:57 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,6 @@ void	settimes(t_philo *philo, char **av)
 void	display(t_philo *philo, char *message)
 {
 	pthread_mutex_lock(philo->typing);
-	pthread_mutex_lock(philo->stop_simulation_guard);
-	if (*philo->stop_simulation)
-	{
-		pthread_mutex_unlock(philo->stop_simulation_guard);
-		pthread_mutex_unlock(philo->typing);
-		return ;
-	}
-	pthread_mutex_unlock(philo->stop_simulation_guard);
 	printf("%lli %i %s\n", timestamp() - philo->start_simulation, \
 			philo->id, message);
 	pthread_mutex_unlock(philo->typing);
