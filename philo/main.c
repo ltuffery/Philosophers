@@ -6,7 +6,7 @@
 /*   By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:36:07 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/03/08 12:26:25 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/03/11 11:11:04 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,29 +38,11 @@ void	meeting_philo(t_data *data)
 	}
 }
 
-void	create_philo_thread(t_data *data)
+void	philo_born(t_data *data, int start_simulation, char **av)
 {
 	int	i;
 
 	i = 0;
-	while (i < data->populations)
-	{
-		pthread_create(&data->philos[i].body, NULL, \
-				routine, &data->philos[i]);
-		i++;
-	}
-}
-
-void	create_philo(t_data *data, char **av)
-{
-	int			i;
-	long long	start_simulation;
-
-	i = 0;
-	start_simulation = timestamp();
-	data->philos = malloc(sizeof(t_philo) * data->populations);
-	if (data->philos == NULL)
-		return ;
 	while (i < data->populations)
 	{
 		pthread_mutex_init(&data->philos[i].fork_left, NULL);
@@ -80,7 +62,25 @@ void	create_philo(t_data *data, char **av)
 			data->philos[i].fork_right = &data->philos[0].fork_left;
 		i++;
 	}
-	create_philo_thread(data);
+}
+
+void	create_philo(t_data *data, char **av)
+{
+	int			i;
+	long long	start_simulation;
+
+	i = 0;
+	start_simulation = timestamp();
+	data->philos = malloc(sizeof(t_philo) * data->populations);
+	if (data->philos == NULL)
+		return ;
+	while (i < data->populations)
+	{
+		pthread_create(&data->philos[i].body, NULL, \
+				routine, &data->philos[i]);
+		i++;
+	}
+	philo_born(data, start_simulation, av);
 }
 
 int	main(int ac, char **av)

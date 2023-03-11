@@ -6,7 +6,7 @@
 /*   By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:07:48 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/03/08 12:23:46 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/03/11 10:31:52 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,10 @@
 
 # include <pthread.h>
 
-typedef enum e_messages
-{
-	TAKEN,
-	EAT,
-	SLEEP,
-	THINK,
-	DIE
-}	t_messages;
+# define TAKEN "has taken a fork"
+# define EAT "is eating"
+# define SLEEP "is sleeping"
+# define THINK "is thinking"
 
 typedef struct s_times
 {
@@ -60,12 +56,14 @@ typedef struct s_data
 int			ft_atoi(const char *nptr);
 void		settimes(t_philo *philo, char **av);
 long long	timestamp(void);
-void		display(t_philo *philo, t_messages message);
+void		display(t_philo *philo, char *message, int for_eat);
 
 /*	CLEAN	*/
 void		data_clean(t_data *data);
 
 /*	ROUTINE	*/
 void		eat_philo(t_philo *philo);
+int			check_kill(t_philo *philo);
+void		die_philo(t_philo *philo);
 
 #endif
