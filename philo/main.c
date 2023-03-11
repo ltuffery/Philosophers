@@ -6,7 +6,7 @@
 /*   By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:36:07 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/03/11 11:17:27 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/03/11 11:25:04 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	meeting_philo(t_data *data)
 	}
 }
 
-void	philo_born(t_data *data, int start_simulation, char **av)
+void	philo_born(t_data *data, long long start_simulation, char **av)
 {
 	int	i;
 
