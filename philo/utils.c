@@ -6,7 +6,7 @@
 /*   By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:39:00 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/03/11 09:43:17 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/03/11 11:12:34 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,8 @@ void	settimes(t_philo *philo, char **av)
 	philo->times.last_lunch = -1;
 }
 
-void	display(t_philo *philo, t_messages message)
+void	display(t_philo *philo, char *message)
 {
-	char	*sentences[6];
-
-	sentences[0] = "has taken a fork";
-	sentences[1] = "is eating";
-	sentences[2] = "is sleeping";
-	sentences[3] = "is thinking";
-	sentences[4] = "died";
 	pthread_mutex_lock(philo->typing);
 	pthread_mutex_lock(philo->stop_simulation_guard);
 	if (*philo->stop_simulation)
@@ -52,6 +45,6 @@ void	display(t_philo *philo, t_messages message)
 	}
 	pthread_mutex_unlock(philo->stop_simulation_guard);
 	printf("%lli %i %s\n", timestamp() - philo->start_simulation, \
-			philo->id, sentences[message]);
+			philo->id, message);
 	pthread_mutex_unlock(philo->typing);
 }

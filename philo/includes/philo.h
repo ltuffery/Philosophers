@@ -6,7 +6,7 @@
 /*   By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:07:48 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/03/11 10:31:52 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/03/11 11:12:51 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_data
 int			ft_atoi(const char *nptr);
 void		settimes(t_philo *philo, char **av);
 long long	timestamp(void);
-void		display(t_philo *philo, char *message, int for_eat);
+void		display(t_philo *philo, char *message);
 
 /*	CLEAN	*/
 void		data_clean(t_data *data);
