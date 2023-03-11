@@ -6,7 +6,7 @@
 /*   By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:39:00 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/03/08 12:29:24 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/03/11 09:43:17 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,20 @@ void	display(t_philo *philo, t_messages message)
 {
 	char	*sentences[6];
 
-	pthread_mutex_lock(philo->stop_simulation_guard);
-	if (*philo->stop_simulation)
-	{
-		pthread_mutex_unlock(philo->stop_simulation_guard);
-		return ;
-	}
-	pthread_mutex_unlock(philo->stop_simulation_guard);
 	sentences[0] = "has taken a fork";
 	sentences[1] = "is eating";
 	sentences[2] = "is sleeping";
 	sentences[3] = "is thinking";
 	sentences[4] = "died";
 	pthread_mutex_lock(philo->typing);
+	pthread_mutex_lock(philo->stop_simulation_guard);
+	if (*philo->stop_simulation)
+	{
+		pthread_mutex_unlock(philo->stop_simulation_guard);
+		pthread_mutex_unlock(philo->typing);
+		return ;
+	}
+	pthread_mutex_unlock(philo->stop_simulation_guard);
 	printf("%lli %i %s\n", timestamp() - philo->start_simulation, \
 			philo->id, sentences[message]);
 	pthread_mutex_unlock(philo->typing);
