@@ -54,3 +54,6 @@ dkms.conf
 # Custom
 *.swp
 philo
+philo_bonus
+debug.txt
+tester.sh
