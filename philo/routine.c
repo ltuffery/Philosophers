@@ -6,7 +6,7 @@
 /*   By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 09:27:52 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/03/11 11:15:49 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/03/13 15:25:01 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	die_philo(t_philo *philo)
 	if (*philo->stop_simulation)
 	{
 		pthread_mutex_unlock(philo->stop_simulation_guard);
-		*philo->stop_simulation = 1;
 		return ;
 	}
 	*philo->stop_simulation = 1;
@@ -47,16 +46,11 @@ void	sleep_philo(t_philo *philo)
 
 void	eat_philo(t_philo *philo)
 {
-	if (philo->times.last_lunch == -1)
-	{
-		if (timestamp() - philo->start_simulation > philo->times.u_die)
-			die_philo(philo);
-	}
-	else if (philo->times.last_lunch + philo->times.u_die * 1000 < timestamp())
+	if (check_eat(philo))
 		die_philo(philo);
-	if (philo->number_of_meals == philo->number_max_of_meals)
-		return ;
 	pthread_mutex_lock(philo->stop_simulation_guard);
+	if (philo->number_of_meals == philo->number_max_of_meals)
+		*philo->stop_simulation = 1;
 	if (*philo->stop_simulation)
 	{
 		pthread_mutex_unlock(philo->stop_simulation_guard);
@@ -74,5 +68,7 @@ void	eat_philo(t_philo *philo)
 	pthread_mutex_unlock(philo->fork_right);
 	philo->times.last_lunch = timestamp();
 	philo->number_of_meals++;
+	if (check_sleep(philo))
+		die_philo(philo);
 	sleep_philo(philo);
 }

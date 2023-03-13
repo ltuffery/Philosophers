@@ -6,7 +6,7 @@
 #    By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/30 16:17:10 by ltuffery          #+#    #+#              #
-#    Updated: 2023/03/08 09:29:38 by ltuffery         ###   ########.fr        #
+#    Updated: 2023/03/13 15:22:03 by ltuffery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ SRCS	=	main.c \
 			ft_atoi.c \
 			utils.c \
 			clean.c \
-			routine.c
+			routine.c \
+			check.c
 
 OBJS	=	$(SRCS:.c=.o)
 

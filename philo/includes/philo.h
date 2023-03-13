@@ -6,7 +6,7 @@
 /*   By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:07:48 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/03/11 11:19:55 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/03/13 15:21:14 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@
 
 typedef struct s_times
 {
-	int	u_eat;
-	int	u_sleep;
-	int	u_die;
-	int	last_lunch;
+	int			u_eat;
+	int			u_sleep;
+	int			u_die;
+	long long	last_lunch;
 }	t_times;
 
 typedef struct s_philo
@@ -64,5 +64,9 @@ void		data_clean(t_data *data);
 /*	ROUTINE	*/
 void		eat_philo(t_philo *philo);
 void		die_philo(t_philo *philo);
+
+/*	CHECK	*/
+int			check_eat(t_philo *philo);
+int			check_sleep(t_philo *philo);
 
 #endif
