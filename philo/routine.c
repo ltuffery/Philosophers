@@ -6,7 +6,7 @@
 /*   By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 09:27:52 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/03/13 15:25:01 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/03/15 13:28:41 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	die_philo(t_philo *philo)
 
 void	sleep_philo(t_philo *philo)
 {
+	if (check_sleep(philo))
+		die_philo(philo);
 	pthread_mutex_lock(philo->stop_simulation_guard);
 	if (*philo->stop_simulation)
 	{
@@ -68,7 +70,5 @@ void	eat_philo(t_philo *philo)
 	pthread_mutex_unlock(philo->fork_right);
 	philo->times.last_lunch = timestamp();
 	philo->number_of_meals++;
-	if (check_sleep(philo))
-		die_philo(philo);
 	sleep_philo(philo);
 }

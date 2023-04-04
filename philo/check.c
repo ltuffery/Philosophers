@@ -6,7 +6,7 @@
 /*   By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 15:16:43 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/03/13 15:28:28 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/03/15 12:37:25 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	check_eat(t_philo *philo)
 {
 	if (philo->times.last_lunch != -1)
 	{
+		printf("%lli\n", philo->times.last_lunch + philo->times.u_die);
 		if (timestamp() > philo->times.last_lunch + philo->times.u_die)
 			return (1);
 		if (timestamp() + philo->times.u_eat > \
