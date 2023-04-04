@@ -6,7 +6,7 @@
 /*   By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:07:48 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/03/13 15:21:14 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/04/04 15:39:52 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,6 @@ void		die_philo(t_philo *philo);
 /*	CHECK	*/
 int			check_eat(t_philo *philo);
 int			check_sleep(t_philo *philo);
+int			check_someone_is_die(t_philo *philo);
 
 #endif
