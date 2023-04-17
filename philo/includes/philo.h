@@ -6,7 +6,7 @@
 /*   By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:07:48 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/04/05 17:09:55 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/04/17 14:56:02 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ typedef struct s_philo
 	pthread_mutex_t	*stop_simulation_guard;
 	int				number_of_meals;
 	int				number_max_of_meals;
+	int				*populations;
+	int				*total_finish_eat;
+	int				has_already_register;
 }	t_philo;
 
 typedef struct s_data
@@ -50,6 +53,7 @@ typedef struct s_data
 	pthread_mutex_t	typing;
 	int				stop_simulation;
 	pthread_mutex_t	stop_simulation_guard;
+	int				total_finish_eat;
 }	t_data;
 
 /*	UTILS	*/
@@ -69,5 +73,6 @@ void		die_philo(t_philo *philo);
 /*	CHECK	*/
 int			check_eat(t_philo *philo);
 int			check_someone_is_die(t_philo *philo);
+int			check_meals(t_philo *philo);
 
 #endif

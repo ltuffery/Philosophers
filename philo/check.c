@@ -6,7 +6,7 @@
 /*   By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 15:16:43 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/04/05 17:08:49 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/04/17 15:02:27 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,28 @@ int	check_eat(t_philo *philo)
 		ret = 1;
 	if (ret == 1)
 		die_philo(philo);
+	return (ret);
+}
+
+int	check_meals(t_philo *philo)
+{
+	int	ret;
+
+	ret = 0;
+	pthread_mutex_lock(philo->stop_simulation_guard);
+	if (philo->number_of_meals == philo->number_max_of_meals)
+	{
+		if (philo->has_already_register == 0)
+		{
+			philo->has_already_register = 1;
+			(*philo->total_finish_eat)++;
+		}
+	}
+	if (*philo->total_finish_eat == *philo->populations)
+	{
+		*philo->stop_simulation = 1;
+		ret = 1;
+	}
+	pthread_mutex_unlock(philo->stop_simulation_guard);
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 09:27:52 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/04/05 17:11:17 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/04/17 14:56:16 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,8 @@ void	sleep_philo(t_philo *philo)
 
 void	eat_philo(t_philo *philo)
 {
-	pthread_mutex_lock(philo->stop_simulation_guard);
-	if (philo->number_of_meals == philo->number_max_of_meals)
-		*philo->stop_simulation = 1;
-	pthread_mutex_unlock(philo->stop_simulation_guard);
+	if (check_meals(philo))
+		return ;
 	if (check_eat(philo))
 		return ;
 	display(philo, THINK);

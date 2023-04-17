@@ -6,7 +6,7 @@
 /*   By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:36:07 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/04/05 16:55:51 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/04/17 15:09:12 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	if (philo->id % 2)
-		usleep(20000);
+		usleep(2000);
 	eat_philo(philo);
 	return (arg);
 }
@@ -54,6 +54,8 @@ void	philo_born(t_data *data, long long start_simulation, char **av)
 		data->philos[i].start_simulation = start_simulation;
 		data->philos[i].stop_simulation = &data->stop_simulation;
 		data->philos[i].stop_simulation_guard = &data->stop_simulation_guard;
+		data->philos[i].total_finish_eat = &data->total_finish_eat;
+		data->philos[i].populations = &data->populations;
 		data->philos[i].number_of_meals = 0;
 		data->philos[i].number_max_of_meals = -1;
 		settimes(&data->philos[i], av);
@@ -86,6 +88,7 @@ void	create_philo(t_data *data, char **av)
 	}	
 	while (i < data->populations)
 	{
+		data->philos[i].has_already_register = 0;
 		pthread_create(&data->philos[i].body, NULL, routine, &data->philos[i]);
 		i++;
 	}
@@ -99,6 +102,7 @@ int	main(int ac, char **av)
 		return (1);
 	data.populations = ft_atoi(av[1]);
 	data.stop_simulation = 0;
+	data.total_finish_eat = 0;
 	pthread_mutex_init(&data.typing, NULL);
 	pthread_mutex_init(&data.stop_simulation_guard, NULL);
 	create_philo(&data, av);
