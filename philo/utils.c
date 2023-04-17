@@ -6,16 +6,14 @@
 /*   By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:39:00 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/03/13 15:13:21 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/04/17 14:18:08 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <pthread.h>
 #include <sys/time.h>
-#include <stdlib.h>
 #include "includes/philo.h"
 #include <stdio.h>
-#include <signal.h>
+#include <unistd.h>
 
 long long	timestamp(void)
 {
@@ -47,4 +45,17 @@ void	display(t_philo *philo, char *message)
 	printf("%lli %i %s\n", timestamp() - philo->start_simulation, \
 			philo->id, message);
 	pthread_mutex_unlock(philo->typing);
+}
+
+void	ft_usleep(int ms, t_philo *philo)
+{
+	long long	start;
+
+	start = timestamp();
+	while ((timestamp() - start) * 1000 < ms)
+	{
+		if (check_eat(philo))
+			break ;
+		usleep(500);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: ltuffery <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:36:07 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/04/04 15:48:12 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/04/05 16:55:51 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	usleep(600);
+	if (philo->id % 2)
+		usleep(20000);
 	eat_philo(philo);
 	return (arg);
 }
@@ -75,6 +76,14 @@ void	create_philo(t_data *data, char **av)
 	if (data->philos == NULL)
 		return ;
 	philo_born(data, start_simulation, av);
+	if (data->populations == 1)
+	{
+		display(&data->philos[0], THINK);
+		display(&data->philos[0], TAKEN);
+		usleep(data->philos[0].times.u_die * 1000);
+		die_philo(&data->philos[0]);
+		return ;
+	}	
 	while (i < data->populations)
 	{
 		pthread_create(&data->philos[i].body, NULL, routine, &data->philos[i]);
